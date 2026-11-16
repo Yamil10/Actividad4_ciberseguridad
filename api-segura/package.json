@@ -1,0 +1,18 @@
+{
+  "name": "api-segura",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API de laboratorio con JWT, validación de entrada y rate limiting",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.4.7"
+  }
+}
+
