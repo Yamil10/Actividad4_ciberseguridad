@@ -53,3 +53,26 @@
 | Cross-Site Scripting (XSS Reflejado) | 4 (Alta) | 3 (Moderado) | **12 - Alto** | Sanitización contextual, codificación HTML y cabeceras CSP. |
 | Ataques de Fuerza Bruta / DoS en Login | 4 (Alta) | 3 (Moderado) | **12 - Alto** | Limitación de tasa (Rate Limiting -> HTTP 429 Too Many Requests). |
 | Acceso a dominios de Phishing y escaneos de red | 3 (Media) | 4 (Mayor) | **12 - Alto** | Firewall perimetral (DROP), filtrado DNS (sinkhole 10.10.10.1) e IDS Snort (SID 1000001). |
+
+---
+
+## Escenario de Ataque a API (SQL Injection + JWT Mal Configurado)
+
+- **Vector de ataque:** Un atacante envía un payload SQLi (' OR 1=1--) en el parámetro de usuario de un endpoint sin validación y simultáneamente falsifica un token JWT aprovechando una clave secreta débil o el algoritmo 'none' sin verificación de firma en el servidor.
+- **Impacto potencial:** Compromiso total de la confidencialidad e integridad de la base de datos, suplantación de identidad de cuentas administrativas y exfiltración masiva de registros.
+- **Recomendaciones de mitigación:**
+  1. Utilizar consultas parametrizadas (Prepared Statements / ORM) junto con validación estricta de esquemas de entrada.
+  2. Configurar secretos JWT criptográficamente robustos (>= 256 bits) almacenados en variables de entorno (.env) y forzar la verificación explícita del algoritmo de firma (HS256/RS256) y expiración.
+
+---
+
+## Fase 4: Evaluación Integral de Riesgos (Matriz 5x5)
+
+| Amenaza / Vulnerabilidad | Probabilidad (1-5) | Impacto (1-5) | Nivel de Riesgo (P x I) | Estrategia de Mitigación Aplicada |
+| :--- | :---: | :---: | :---: | :--- |
+| Inyección SQL (SQLi) en Web / API | 5 (Muy Alta) | 5 (Catastrófico) | **25 - Crítico** | Validación de entrada con express-validator y consultas parametrizadas. |
+| JWT débil o acceso sin autenticación | 4 (Alta) | 5 (Catastrófico) | **20 - Crítico** | Firma HMAC con JWT_SECRET robusto y rechazo HTTP 401/403. |
+| Control de Acceso Roto (Broken Access Control) | 4 (Alta) | 4 (Mayor) | **16 - Alto** | Control de acceso basado en roles (RBAC) y denegación por defecto. |
+| Cross-Site Scripting (XSS Reflejado) | 4 (Alta) | 3 (Moderado) | **12 - Alto** | Sanitización contextual, codificación HTML y cabeceras CSP. |
+| Ataques de Fuerza Bruta / DoS en Login | 4 (Alta) | 3 (Moderado) | **12 - Alto** | Limitación de tasa (Rate Limiting -> HTTP 429 Too Many Requests). |
+| Acceso a dominios de Phishing y escaneos de red | 3 (Media) | 4 (Mayor) | **12 - Alto** | Firewall perimetral (DROP), filtrado DNS (sinkhole 10.10.10.1) e IDS Snort (SID 1000001). |
